@@ -104,8 +104,14 @@ function deleteTaskElement(id) {
   document.getElementById(id).remove();
 }
 function changeStatusTaskElement(id) {
-  let checkboxElem = document.getElementById(id).querySelector('input[name=checkbox]');
+  let checkboxElem = document.getElementById(id).querySelector('input[type=checkbox]');
   checkboxElem.checked = !checkboxElem.checked;
+  console.log("Asd: ", checkboxElem.checked)
+  if(checkboxElem.checked === false) {
+    document.getElementById(id).classList.add('task-done');
+  } else {
+    document.getElementById(id).classList.remove('task-done');
+  }
 }
 
 // data manipulations functions
