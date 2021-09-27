@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ToDo List</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo List</title>
 
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section class="container">
+      <h1 id="header">ToDo List</h1>
 
-  <section class="container">
-    <h1 id="header">ToDo List</h1>
-
-    <main>
-        <input
-          type="text"
-          id="taskName"
-          maxlength="20"
-          placeholder="Enter a task name..."
-          value=""
-        >
-        <button id="create" disabled>Create</button>
-      <div class="list"></div>
-      <div class="bottom"></div>
-    </main>
-  </section>
-  <script  src="index.js"></script>
-</body>
+      <main>
+        <div class="top">
+          <input
+            type="text"
+            id="taskName"
+            maxlength="20"
+            placeholder="Enter a task name..."
+            value=""
+          />
+          <button id="create" disabled>Create</button>
+        </div>
+        <div class="list"></div>
+      </main>
+    </section>
+    <script src="index.js"></script>
+  </body>
 </html>

@@ -12,21 +12,39 @@ function template() {
   if (listOfItem.length <= 0) {
     return `<p>No tasks yet! Please add new one!</p>`
   } else {
-    return listOfItem.map(item => {
+    let counter = 0;
+    let renderedStr = "";
+    
+    // list of todo's
+    renderedStr += listOfItem.map(item => {
       let str = "";
       str += `<div id=${item.id} class=${item.isDone === true ? 'list-item-done' : 'list-item'}>`;
       str += `<input id=${item.id} type='checkbox' class='list-item-checkbox' ${item.isDone === true ? 'checked' : null}>`;
       str += `<p id=${item.id} class='list-item-p'>${item.name}</p>`;
       if(item.isDone === true) {
-        str += `<button id=${item.id} class='list-item-deleteBtn'>delete</button>`;
+        counter++; // counting competed tasks
+        str += `<button id=${item.id} class='list-item-deleteBtn'>delete</button>`; // if task completed we show delete btn
       }
       str += `</div>`;
       return str;
     }).join(''); // to delete comma from list
+    
+    // important bottom info
+    renderedStr += `<div class='bottom'>`;
+    renderedStr += `<p>Done tasks: ${counter}/${listOfItem.length}</p>`;
+    
+    if(counter === 0) {
+      renderedStr += `<button id="remove" class="removeBtn" disabled>remove done tasks</button>`;
+    } else {
+      renderedStr += `<button id="remove" class="removeBtn">remove done tasks</button>`;
+    }
+    
+    renderedStr += `</div>`;
+
+    return renderedStr;
   }
 }
 function render() {
-  saveLocalStorage();
   taskList.innerHTML = template();
 }
 
@@ -45,6 +63,8 @@ function submitTaskBtnHandler() {
   if (taskName.length !== 0) {
     addNewTask(taskName, generatedId);
 
+    saveLocalStorage(); // save new list of tasks to localStorage
+
     render(); // render new ui
 
     taskInput.value = ""; // clear input element
@@ -54,7 +74,7 @@ function submitTaskBtnHandler() {
 }
 function keyboardHandler(event) {
   if (event.keyCode === 13) { // on user press enter button, we create task
-    submitTaskBtnHandler()
+    submitTaskBtnHandler();
   }
 }
 function enteringTaskNameHander(event) {
@@ -69,28 +89,34 @@ function taskClickHandler(event) {
 
   switch (event.path[0].classList[0]) {
     case "list-item-checkbox": // change status of task
-      console.log("pressed checkBox, id: ", gettedId);
       changeStatusTaskById(gettedId); // change status item at data structure
+      saveLocalStorage(); // save new list of tasks to localStorage
       render(); // re-render UI
       break;
     case "list-item": // mark task as done
-      console.log("pressed div, id: ", gettedId);
       changeStatusTaskById(gettedId); // change status item at data structure
+      saveLocalStorage(); // save new list of tasks to localStorage
       render(); // re-render UI
       break;
     case "list-item-p": // mark task as done
-      console.log("pressed div, id: ", gettedId);
       changeStatusTaskById(gettedId); // change status item at data structure
+      saveLocalStorage(); // save new list of tasks to localStorage
       render(); // re-render UI
       break;
-    case "list-item-deleteBtn": // delete task
-      console.log("pressed delete, id: ", gettedId);
+    case "list-item-deleteBtn": // delete specific task
       deleteTaskById(gettedId); // remove item from data structure
+      saveLocalStorage(); // save new list of tasks to localStorage
+      render(); // re-render UI
+      break;
+    case "removeBtn": // remove all done tasks
+      removeDoneTasks() // remove all done tasks from data structure
+      saveLocalStorage(); // save new list of tasks to localStorage
       render(); // re-render UI
       break;
   }
-
-  console.log("list of tasks: ", listOfItem);
+}
+function removeDoneTasksHandler() {
+  removeDoneTasks();
 }
 
 // data manipulations functions
@@ -122,6 +148,10 @@ function changeStatusTaskById(id) {
 }
 function deleteTaskById(id) {
   const newFormatedList = listOfItem.filter(item => item.id !== id);
+  listOfItem = newFormatedList;
+}
+function removeDoneTasks() {
+  const newFormatedList = listOfItem.filter(item => item.isDone !== true);
   listOfItem = newFormatedList;
 }
 
