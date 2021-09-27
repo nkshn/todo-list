@@ -1,0 +1,34 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: monospace;
+}
+body {
+  background: rgb(18,102,152);
+  background: linear-gradient(90deg, rgba(18,102,152,1) 0%, rgba(54,198,221,1) 100%);
+  height: 100vh;
+  width: 100%;
+}
+
+/* styles for list of todo's */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* styles for todo list item */
+.list-item {
+  background: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 235px;
+  justify-content: space-between;
+  height: 25px;
+}
+.list-item-p {
+  width: 100%;
+  position: relative;
+  text-align: left;
+}
