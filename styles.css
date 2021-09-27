@@ -27,13 +27,19 @@ body {
   justify-content: space-between;
   height: 25px;
 }
+.list-item-done {
+  background: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 235px;
+  justify-content: space-between;
+  height: 25px;
+  opacity: 0.5;
+  text-decoration: line-through;
+}
 .list-item-p {
   width: 100%;
   position: relative;
   text-align: left;
-}
-
-.task-done {
-  opacity: 0.5;
-  text-decoration: line-through;
 }
