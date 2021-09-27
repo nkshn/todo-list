@@ -56,13 +56,15 @@ body {
   width: 235px;
   justify-content: space-between;
   height: 25px;
-  opacity: 0.5;
-  text-decoration: line-through;
+  opacity: 0.7;
   cursor: pointer;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-right: 10px;
   padding-left: 10px;
+}
+.list-item-done p {
+  text-decoration: line-through;
 }
 .list-item-p {
   width: 100%;
@@ -74,6 +76,10 @@ body {
 .list-item-checkbox {
   cursor: pointer;
 }
-.removeBtn {
+
+.list-item-editBtn {
+  cursor: pointer;
+}
+.list-item-deleteBtn {
   cursor: pointer;
 }

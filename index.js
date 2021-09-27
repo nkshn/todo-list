@@ -2,6 +2,8 @@ const KEY = "todo-tasks";
 
 let listOfItem = JSON.parse(window.localStorage.getItem(KEY)) || [];
 
+let editedTaskId;
+
 // selectors
 let createBtn = document.querySelector('#create');
 let taskInput = document.querySelector('#taskName');
@@ -21,11 +23,14 @@ function template() {
       str += `<div id=${item.id} class=${item.isDone === true ? 'list-item-done' : 'list-item'}>`;
       str += `<input id=${item.id} type='checkbox' class='list-item-checkbox' ${item.isDone === true ? 'checked' : null}>`;
       str += `<p id=${item.id} class='list-item-p'>${item.name}</p>`;
-      if(item.isDone === true) {
+      if(item.isDone === true) { // if task is done, show delete btn
         counter++; // counting competed tasks
         str += `<button id=${item.id} class='list-item-deleteBtn'>delete</button>`; // if task completed we show delete btn
+      } else { // if task is not done, show edit btn
+        str += `<button id=${item.id} class='list-item-editBtn'>edit</button>`;
       }
       str += `</div>`;
+      
       return str;
     }).join(''); // to delete comma from list
     
@@ -59,17 +64,37 @@ function submitTaskBtnHandler() {
   let taskName = taskInput.value; // get task name from input field
   let generatedId = generateUniqueId(); // generate unique id for easy future manipulations
 
-  // cheking if task name entered
+  /**
+   * docs:
+   * if text of btn is "Create", we create new task
+   * if text of btn is "Save", we edit specific task
+   */
+  let mainBtnText = createBtn.textContent.toLowerCase();
+
   if (taskName.length !== 0) {
-    addNewTask(taskName, generatedId);
+    if(mainBtnText === "create") {
+      addNewTask(taskName, generatedId);
 
-    saveLocalStorage(); // save new list of tasks to localStorage
+      saveLocalStorage(); // save new list of tasks to localStorage
 
-    render(); // render new ui
+      render(); // render new ui
 
-    taskInput.value = ""; // clear input element
+      taskInput.value = ""; // clear input element
 
-    createBtn.disabled = true; // disable create task button
+      createBtn.disabled = true; // disable create task button
+    }
+    if(mainBtnText === "save") {
+      editTaskById(taskName);
+
+      saveLocalStorage(); // save new list of tasks to localStorage
+
+      render(); // render new ui
+
+      taskInput.value = ""; // clear input element
+
+      createBtn.textContent = "create"; // disable create task button
+      createBtn.disabled = true; // disable create task button
+    }
   }
 }
 function keyboardHandler(event) {
@@ -86,7 +111,7 @@ function enteringTaskNameHander(event) {
 }
 function taskClickHandler(event) {
   let gettedId = event.path[0].id;
-
+  // console.log("event.path[0].classList[0]: ", event.path[0].classList[0])
   switch (event.path[0].classList[0]) {
     case "list-item-checkbox": // change status of task
       changeStatusTaskById(gettedId); // change status item at data structure
@@ -103,6 +128,11 @@ function taskClickHandler(event) {
       saveLocalStorage(); // save new list of tasks to localStorage
       render(); // re-render UI
       break;
+    case "list-item-editBtn": // edit specific task
+      editTaskByIdHandler(gettedId); // edit item from data structure
+      // saveLocalStorage(); // save new list of tasks to localStorage
+      // render(); // re-render UI
+      break;
     case "list-item-deleteBtn": // delete specific task
       deleteTaskById(gettedId); // remove item from data structure
       saveLocalStorage(); // save new list of tasks to localStorage
@@ -117,6 +147,16 @@ function taskClickHandler(event) {
 }
 function removeDoneTasksHandler() {
   removeDoneTasks();
+}
+function editTaskByIdHandler(id) {
+  const editedTask = listOfItem.find(item => item.id === id);
+  console.log("editedTask: ", editedTask, " id: ", id);
+
+  editedTaskId = id;
+  
+  taskInput.value = editedTask.name;
+  taskInput.focus();
+  createBtn.textContent = "Save";
 }
 
 // data manipulations functions
@@ -144,6 +184,22 @@ function changeStatusTaskById(id) {
     }
   });
 
+  listOfItem = newFormatedList;
+}
+function editTaskById(name) {
+  const newFormatedList = listOfItem.map(item => {
+    if(item.id === editedTaskId) {
+      return {
+        id: item.id,
+        name: name,
+        isDone: item.isCheked,
+        createdAt: item.createdAt,
+        editedAt: new Date()
+      }
+    } else {
+      return item;
+    }
+  });
   listOfItem = newFormatedList;
 }
 function deleteTaskById(id) {
