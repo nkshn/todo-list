@@ -78,6 +78,11 @@ function taskClickHandler(event) {
       changeStatusTaskById(gettedId); // change status item at data structure
       render(); // re-render UI
       break;
+    case "list-item-p": // mark task as done
+      console.log("pressed div, id: ", gettedId);
+      changeStatusTaskById(gettedId); // change status item at data structure
+      render(); // re-render UI
+      break;
     case "list-item-deleteBtn": // delete task
       console.log("pressed delete, id: ", gettedId);
       deleteTaskById(gettedId); // remove item from data structure
@@ -99,7 +104,7 @@ function addNewTask(name, id) {
   });
 }
 function changeStatusTaskById(id) {
-  const newFormatedList = listOfItem.map(item => {
+  let newFormatedList = listOfItem.map(item => {
     if (item.id === id) {
       return {
         id: item.id,
@@ -112,6 +117,7 @@ function changeStatusTaskById(id) {
       return item;
     }
   });
+
   listOfItem = newFormatedList;
 }
 function deleteTaskById(id) {

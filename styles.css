@@ -26,6 +26,7 @@ body {
   width: 235px;
   justify-content: space-between;
   height: 25px;
+  cursor: pointer;
 }
 .list-item-done {
   background: white;
@@ -37,6 +38,7 @@ body {
   height: 25px;
   opacity: 0.5;
   text-decoration: line-through;
+  cursor: pointer;
 }
 .list-item-p {
   width: 100%;
