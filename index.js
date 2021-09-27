@@ -105,9 +105,10 @@ function deleteTaskElement(id) {
 }
 function changeStatusTaskElement(id) {
   let checkboxElem = document.getElementById(id).querySelector('input[type=checkbox]');
-  checkboxElem.checked = !checkboxElem.checked;
-  console.log("Asd: ", checkboxElem.checked)
-  if(checkboxElem.checked === false) {
+  let item = listOfItem.find(item => item.id === id);
+  checkboxElem.checked = item.isDone;
+
+  if(item.isDone === true) {
     document.getElementById(id).classList.add('task-done');
   } else {
     document.getElementById(id).classList.remove('task-done');
@@ -119,7 +120,7 @@ function addNewTask(name, id) {
   listOfItem.push({
     id: id,
     name: name,
-    idDone: false,
+    isDone: false,
     createdAt: new Date(),
     editedAt: new Date(),
   });
@@ -130,7 +131,7 @@ function changeStatusTaskById(id) {
       return {
         id: item.id,
         name: item.name,
-        idDone: item.idDone === false ? true : false,
+        isDone: item.isDone === false ? true : false,
         createdAt: item.createdAt,
         editedAt: new Date()
       }
