@@ -1,9 +1,9 @@
 let listOfItem = [];
 
 // selectors
-let createBtn = document.querySelector("#create");
-let taskInput = document.querySelector("#taskName");
-let taskList = document.querySelector("body > section > main > div.list");
+let createBtn = document.querySelector('#create');
+let taskInput = document.querySelector('#taskName');
+let taskList = document.querySelector('body > section > main > div.list');
 
 // event listeners
 createBtn.addEventListener('click', submitTaskBtnHandler);
@@ -39,7 +39,8 @@ taskList.addEventListener('click', function (event) {
       break;
     case "list-item-deleteBtn": // delete task
       console.log("pressed delete, id: ", gettedId);
-      deleteTaskById(gettedId);
+      deleteTaskById(gettedId); // remove item from data structure
+      deleteTaskElement(gettedId); // remove item from dom
       break;
   }
 
@@ -95,6 +96,9 @@ function createTaskElement(name, generateId) {
   taskBtns.appendChild(taskDeleteBtn);
 
   return taskItem;
+}
+function deleteTaskElement(id) {
+  document.getElementById(id).remove();
 }
 
 // data manipulations functions
