@@ -31,11 +31,13 @@ taskList.addEventListener('click', function (event) {
   switch (event.path[0].classList[0]) {
     case "list-item-checkbox": // change status of task
       console.log("pressed checkBox, id: ", gettedId);
-      changeStatusTaskById(gettedId);
+      changeStatusTaskById(gettedId); // change status item at data structure
+      changeStatusTaskElement(gettedId); // change status item at data dom
       break;
     case "list-item": // mark task as done
       console.log("pressed div, id: ", gettedId);
-      changeStatusTaskById(gettedId);
+      changeStatusTaskById(gettedId); // change status item at data structure
+      changeStatusTaskElement(gettedId); // change status item at dom
       break;
     case "list-item-deleteBtn": // delete task
       console.log("pressed delete, id: ", gettedId);
@@ -66,7 +68,7 @@ function submitTaskBtnHandler() {
   }
 }
 
-// creating new task element
+// DOM manipulations functions
 function createTaskElement(name, generateId) {
   let taskItem = document.createElement('div');
   let taskCheckbox = document.createElement('input');
@@ -76,6 +78,7 @@ function createTaskElement(name, generateId) {
 
   taskCheckbox.id = generateId;
   taskCheckbox.type = 'checkbox';
+  taskCheckbox.checked = false;
 
   taskItem.id = generateId;
   taskText.id = generateId;
@@ -99,6 +102,10 @@ function createTaskElement(name, generateId) {
 }
 function deleteTaskElement(id) {
   document.getElementById(id).remove();
+}
+function changeStatusTaskElement(id) {
+  let checkboxElem = document.getElementById(id).querySelector('input[name=checkbox]');
+  checkboxElem.checked = !checkboxElem.checked;
 }
 
 // data manipulations functions
