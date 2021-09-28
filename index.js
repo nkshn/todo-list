@@ -11,11 +11,13 @@ let taskList = document.querySelector('body > section > main > div.list');
 
 // template / render functions
 function template() {
+  let renderedStr = "";
+
   if (listOfItem.length <= 0) {
-    return `<p>No tasks yet! Please add new one!</p>`
+    renderedStr = "<p>No tasks yet! Please add new one!</p>"
+    return renderedStr;
   } else {
     let counter = 0;
-    let renderedStr = "";
     
     // list of todo's
     renderedStr += listOfItem.map(item => {
